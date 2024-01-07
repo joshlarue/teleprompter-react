@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // adapted from https://www.geeksforgeeks.org/how-to-open-web-cam-in-javascript/
+  document.addEventListener("DOMContentLoaded", () => {
+    let camStream = document.querySelector(".camera-stream");
+    let playBtn = document.querySelector(".camera-start");
+    let mediaDevices = navigator.mediaDevices;
+    camStream.muted = true;
+
+    playBtn.addEventListener("click", () => {
+      mediaDevices
+        .getUserMedia({video: true, audio: true,})
+        .then((stream) => {
+          camStream.srcObject = stream;
+          camStream.addEventListener("loadedmetadata", () => {
+            camStream.play();
+          })
+        })
+        .catch(alert);
+    });
+  });
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <video className="camera-stream"></video>
+      <button className="camera-start" autoPlay>
+        Start Webcam
+      </button>
     </>
   )
 }
