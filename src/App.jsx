@@ -33,6 +33,7 @@ function App() {
           const clipLabel = document.createElement("p");
           const audio = document.createElement("audio");
           const displayVid = document.createElement("video");
+          displayVid.controls = true;
           const dlLink = document.createElement("a");
     
           clipLabel.textContent = clip;
